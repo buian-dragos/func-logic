@@ -1,0 +1,15 @@
+% removeNthElem(l1l2...lk, n)  
+% [], if k = 0
+% removeNthElem(l2...lk, n - 1), if n = 0
+% l1 U removeNthElem(l2...lk, n - 1), otherwise
+
+removeNthElem([],_,[]).
+removeNthElem([_|Tail],N,Result):-
+    N =:= 0,
+    N1 is N - 1,
+    removeNthElem(Tail,N1,Result),!.
+removeNthElem([Head|Tail],N,[Head|Result]):-
+    N1 is N - 1,
+    removeNthElem(Tail,N1,Result).
+
+% removeNthElem([0,1,2,3,4,5],3,R).

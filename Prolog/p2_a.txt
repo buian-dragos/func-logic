@@ -1,0 +1,16 @@
+subst([], _, _, []).
+subst([Old|T], Old, New, Result) :-
+    append(New, Rest, Result),
+    subst(T, Old, New, Rest),
+    !.
+subst([H|T], Old, New, [H|Result]) :-
+    H \= Old,
+    subst(T, Old, New, Result).
+
+% subst([1,2,3,4,6,2,3],2,[44,22,11],R).
+
+%	subst(l1,l2,...ln,e,b1,b2,..bk)	| [], n=0
+%					| b1,b2..bk U subst(l2,...ln,e,b1,b2..bk), l1 == e
+%					| l1 U subst(l2,...ln,b1,b2..bk), l1 != e
+% where l1,l2,..ln is the intial list and b1,b2..bk is the replacement list
+
