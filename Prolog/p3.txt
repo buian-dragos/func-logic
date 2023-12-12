@@ -1,0 +1,26 @@
+% subsets_sum(l1l2..ln,sum,acc) = | [], n == 0
+% 								  | acc = l1l2..ln, sum == 0
+%								  | subsets_sum(l2l3..ln,sum-l1,l1 U acc), otherwise
+%								  | subsets_sum(l2l3..ln,sum,acc), otherwise
+
+
+% appd(a1a2..an,b1b2..bm) = | [], n == m == 0
+%							| a1a2..an, m == 0
+%							| b1b2..bm, n == 0
+%							| a1a2..an U b1b2..bm,
+% note, if i use my own append funciton i get an extra set of []
+appd([],[],_).
+appd([],B,B).
+appd(A,[],A).
+appd(A,B,Result):-
+    Result = [A|B].
+
+subsets_sum([], 0, Acc, [Acc]).
+subsets_sum([], _, _, []).
+subsets_sum([H|T], S, Acc, Result) :-
+    NewS is S - H,
+    % checks for subsets that include H
+    subsets_sum(T, NewS, [H|Acc], SubsWithH),
+    % checks for subsets that don't include H
+    subsets_sum(T, S, Acc, SubsWithoutH),
+    append(SubsWithH, SubsWithoutH, Result),!.
